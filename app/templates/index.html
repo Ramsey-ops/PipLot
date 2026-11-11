@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2b">
+  <meta name="description" content="Plan trade size and risk with PipLot's transparent position-size calculator.">
+  <title>PipLot — Trade with clarity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="PipLot home"><span class="brand-mark">P</span><span>PipLot</span></a>
+    <nav aria-label="Main navigation">
+      <a class="active" href="#calculator">Calculator</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#disclaimer">About</a>
+    </nav>
+    <span class="header-note"><span class="status-dot"></span> No account needed</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> SMARTER TRADE PLANNING</p>
+        <h1>Trade with<br><span>clarity.</span></h1>
+        <p class="hero-description">Know your position size before you enter. Plan your risk, set your target, and make every pip count.</p>
+        <a class="hero-link" href="#calculator">Calculate your position <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-graphic" aria-hidden="true">
+        <div class="graphic-orbit orbit-one"></div><div class="graphic-orbit orbit-two"></div>
+        <div class="graphic-card">
+          <div class="graphic-top"><span>TRADE PLAN</span><span class="graphic-pill">READY</span></div>
+          <div class="graphic-value">01<span>%</span></div>
+          <div class="graphic-caption">Risk, measured.</div>
+          <svg viewBox="0 0 310 76" role="img" aria-label="Decorative rising line">
+            <path class="chart-fill" d="M0 64 C34 58 38 67 68 48 S102 56 132 35 S171 48 198 21 S244 38 271 8 S293 19 310 3 V76 H0Z"></path>
+            <path class="chart-line" d="M0 64 C34 58 38 67 68 48 S102 56 132 35 S171 48 198 21 S244 38 271 8 S293 19 310 3"></path>
+          </svg>
+          <div class="graphic-bottom"><span>PLAN YOUR NEXT MOVE</span><span>↗</span></div>
+        </div>
+        <div class="float-chip"><span>✓</span> Risk in control</div>
+      </div>
+    </section>
+
+    <section class="calculator-section" id="calculator">
+      <div class="section-heading">
+        <div><p class="eyebrow">POSITION SIZE CALCULATOR</p><h2>Build your trade plan</h2></div>
+        <button class="text-button" id="reset-button" type="button">↺ <span>Reset</span></button>
+      </div>
+      <div class="calculator-layout">
+        <form class="panel input-panel" id="trade-form" novalidate>
+          <div class="panel-heading"><span class="step-number">01</span><div><h3>Trade details</h3><p>Enter the essentials to size your position.</p></div></div>
+
+          <div class="field">
+            <div class="label-row"><label for="instrument-search">Instrument</label><span class="sub-label" id="instrument-count">Loading instruments…</span></div>
+            <div class="instrument-control">
+              <input id="instrument-search" type="search" placeholder="Search symbol or market" autocomplete="off" aria-label="Search instruments">
+              <select id="instrument" aria-label="Select instrument"></select>
+              <button type="button" class="favorite-toggle" id="favorite-button" aria-label="Add instrument to favourites" title="Toggle favourite">☆</button>
+            </div>
+            <div class="instrument-meta"><span class="instrument-category" id="instrument-category">Forex</span><span id="profile-label">Reference estimate</span></div>
+            <div class="category-pills" id="category-pills" aria-label="Filter instruments"></div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Direction</span>
+            <div class="direction-toggle">
+              <label class="direction-option buy selected"><input type="radio" name="direction" value="BUY" checked><span class="direction-icon">↗</span> Buy</label>
+              <label class="direction-option sell"><input type="radio" name="direction" value="SELL"><span class="direction-icon">↘</span> Sell</label>
+            </div>
+          </div>
+
+          <div class="field-grid">
+            <div class="field"><label for="balance">Account balance</label><div class="input-with-suffix"><span class="prefix">$</span><input id="balance" name="balance" type="number" min="0.01" step="any" value="10000" inputmode="decimal" required><span class="suffix">USD</span></div></div>
+            <div class="field"><label for="risk-value">Risk amount</label><div class="input-with-suffix"><input id="risk-value" name="risk_value" type="number" min="0.01" step="any" value="1" inputmode="decimal" required><select id="risk-mode" aria-label="Risk type"><option value="percent">% of balance</option><option value="cash">USD fixed</option></select></div></div>
+          </div>
+          <div class="risk-equivalent" id="risk-equivalent" aria-live="polite">1% risk = $100.00</div>
+
+          <div class="field-grid price-grid">
+            <div class="field"><label for="entry">Entry price</label><input id="entry" name="entry" type="number" min="0" step="any" value="1.08500" inputmode="decimal" required></div>
+            <div class="field"><label for="stop-loss">Stop loss</label><input id="stop-loss" name="stop_loss" type="number" min="0" step="any" value="1.08000" inputmode="decimal" required></div>
+          </div>
+          <div class="field">
+            <div class="label-row"><span class="field-label">Take profit</span><div class="method-toggle"><label><input type="radio" name="tp_method" value="rr" checked><span>By R:R</span></label><label><input type="radio" name="tp_method" value="price"><span>By price</span></label></div></div>
+            <div class="tp-inputs" id="rr-controls"><label class="sr-only" for="rr">Risk-to-reward ratio</label><select id="rr" name="rr"><option value="1">1 : 1</option><option value="2" selected>1 : 2</option><option value="3">1 : 3</option><option value="5">1 : 5</option><option value="10">1 : 10</option><option value="15">1 : 15</option><option value="custom">Custom</option></select><input id="custom-rr" type="number" min="0.01" step="any" value="2" aria-label="Custom risk-to-reward ratio" hidden></div>
+            <div class="tp-inputs" id="price-controls" hidden><label class="sr-only" for="take-profit">Take-profit price</label><input id="take-profit" name="take_profit" type="number" min="0" step="any" inputmode="decimal" placeholder="Enter target price"></div>
+          </div>
+
+          <div class="form-actions"><button class="primary-button" type="submit">Calculate position <span>→</span></button><button class="copy-button" id="copy-button" type="button" disabled>▣ <span>Copy plan</span></button></div>
+          <p class="form-message" id="form-message" role="alert" aria-live="polite"></p>
+        </form>
+
+        <aside class="panel results-panel" aria-live="polite">
+          <div class="results-top"><div><p class="eyebrow">YOUR POSITION PLAN</p><h3>Estimated results</h3></div><span class="estimate-badge"><span></span> REFERENCE</span></div>
+          <div class="lot-result"><span>Recommended lot size</span><div class="lot-value" id="result-volume">— <small>lots</small></div><p id="result-instrument">Select a supported instrument to begin</p></div>
+          <div class="result-grid">
+            <div class="result-item"><span>Planned risk</span><strong id="result-planned-risk">—</strong><small id="result-risk-percent">of balance</small></div>
+            <div class="result-item"><span>Estimated actual risk</span><strong id="result-actual-risk">—</strong><small id="result-actual-percent">after rounding</small></div>
+            <div class="result-item"><span>Take-profit</span><strong id="result-tp">—</strong><small id="result-rr">R:R —</small></div>
+            <div class="result-item"><span>Potential gross profit</span><strong class="profit-value" id="result-profit">—</strong><small>before trading costs</small></div>
+            <div class="result-item"><span>Potential gross loss</span><strong class="loss-value" id="result-loss">—</strong><small>at stop loss</small></div>
+          </div>
+          <div class="trade-distances"><div><span>Stop distance</span><strong id="result-stop-distance">—</strong></div><div><span>Target distance</span><strong id="result-target-distance">—</strong></div></div>
+          <div class="result-warning" id="result-warning" hidden></div>
+          <div class="profile-disclosure" id="profile-disclosure">Calculations use predefined reference assumptions. Your provider's contract terms may differ.</div>
+          <div class="cost-note">Gross estimates exclude spread, commission, swap, slippage, gaps and execution differences.</div>
+          <button class="learn-link" id="learn-button" type="button" aria-expanded="false">How was this calculated? <span>＋</span></button>
+          <p class="learning-copy" id="learning-copy" hidden></p>
+        </aside>
+      </div>
+      <div class="history-strip"><div><span class="history-icon">◷</span><div><strong>Recent plans</strong><span>Saved only in this browser</span></div></div><button id="clear-history" type="button">Clear history</button></div>
+      <div class="history-list" id="history-list"></div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <p class="eyebrow">A CLEARER WAY TO PLAN</p><h2>Simple inputs. A more considered trade.</h2>
+      <div class="how-grid">
+        <article><span class="how-icon">◎</span><h3>Set your risk</h3><p>Choose a percentage of your balance or a fixed cash amount. Your risk budget stays in focus.</p></article>
+        <article><span class="how-icon">↕</span><h3>Define your stop</h3><p>Your entry-to-stop distance determines how much one lot could lose under the selected reference model.</p></article>
+        <article><span class="how-icon">⌁</span><h3>Plan a target</h3><p>Set a risk-to-reward multiple or enter a target price to see an estimated gross outcome.</p></article>
+      </div>
+    </section>
+    <section class="disclaimer" id="disclaimer"><span class="disclaimer-icon">i</span><div><strong>Reference calculations, not broker quotes</strong><p>PipLot is a planning aid, not financial advice or a trading platform. Reference specifications can differ from provider conditions. Check the symbol details with your provider before placing a trade. No orders are placed by this tool.</p></div></section>
+  </main>
+  <footer><a class="brand footer-brand" href="/"><span class="brand-mark">P</span><span>PipLot</span></a><span>Plan thoughtfully. Trade responsibly.</span><span>© 2026 PipLot</span></footer>
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</body>
+</html>
